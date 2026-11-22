@@ -1,6 +1,7 @@
 from abc import ABC, abstractmethod
 from .capability import TransformCapability
 
+
 class Creature(ABC):
     def __init__(self, name: str, creature_type: str) -> None:
         self._name = name
