@@ -35,12 +35,36 @@ class Shiftling(Creature, TransformCapability):
         Creature.__init__(self, "Shiftling", "Normal")
         TransformCapability.__init__(self)
 
+    def attack(self) -> str:
+        if self._is_transformed:
+            return "Shiftling performs a boosted strike!"
+        else:
+            return "Shiftling attacks normally."
 
-if __name__ == "__main__":
-    flameling = Flameling()
-    pyrodon = Pyrodon()
+    def transform(self) -> str:
+        self._is_transformed = True
+        return "Shiftling shifts into a sharper form!"
 
-    print(flameling.describe())
-    print(flameling.attack())
-    print(pyrodon.describe())
-    print(pyrodon.attack())
+    def revert(self) -> str:
+        self._is_transformed = False
+        return "Shiftling returns to normal."
+
+
+class Morphagon(Creature, TransformCapability):
+    def __init__(self) -> None:
+        Creature.__init__(self, "Morphagon", "Normal/Dragon")
+        TransformCapability.__init__(self)
+
+    def attack(self) -> str:
+        if self._is_transformed:
+            return "Morphagon unleashes a devastating morph strike!"
+        else:
+            return "Morphagon attacks normally."
+
+    def transform(self) -> str:
+        self._is_transformed = True
+        return "Morphagon morphs into a dragonic battle form!"
+
+    def revert(self) -> str:
+        self._is_transformed = False
+        return "Morphagon stabilizes its form."
