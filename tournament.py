@@ -1,0 +1,64 @@
+from ex3 import (
+    CreatureFactory,
+    FlameFactory,
+    TransformCreatureFactory,
+)
+
+from ex4 import (
+    BattleStrategy,
+    NormalStrategy,
+    AggressiveStrategy,
+    InvalidStrategyError,
+)
+
+
+def run_tournament(
+    opponents: list[tuple[CreatureFactory, BattleStrategy]],
+) -> None:
+    print("*** Tournament ***")
+    print(f"{len(opponents)} opponents involved")
+    print()
+
+    for i in range(len(opponents)):
+        for j in range(i + 1, len(opponents)):
+            factory1, strategy1 = opponents[i]
+            factory2, strategy2 = opponents[j]
+
+            creature1 = factory1.create_base()
+            creature2 = factory2.create_base()
+
+            print("* Battle *")
+            print(creature1.describe())
+            print(" vs.")
+            print(creature2.describe())
+            print(" now fight!")
+
+            try:
+                strategy1.act(creature1)
+                strategy2.act(creature2)
+            except InvalidStrategyError as e:
+                print(f"Battle error, aborting tournament: {e}")
+                return
+
+
+def main() -> None:
+    opponents_basic: list[tuple[CreatureFactory, BattleStrategy]] = [
+        (FlameFactory(), NormalStrategy()),
+        (TransformCreatureFactory(), AggressiveStrategy()),
+    ]
+    print("Tournament 0 (basic)")
+    print("[ (Flameling+Normal), (Shiftling+Aggressive) ]")
+    run_tournament(opponents_basic)
+    print()
+
+    opponents_error: list[tuple[CreatureFactory, BattleStrategy]] = [
+        (TransformCreatureFactory(), AggressiveStrategy()),
+        (FlameFactory(), AggressiveStrategy()),
+    ]
+    print("Tournament 1 (error)")
+    print("[ (Shiftling+Aggressive), (Flameling+Aggressive) ]")
+    run_tournament(opponents_error)
+
+
+if __name__ == "__main__":
+    main()
